@@ -1,12 +1,4 @@
-import {
-	Button,
-	Container,
-	ContainerInput,
-	ContainerText,
-	Input,
-	Text,
-	Title,
-} from './styles';
+import { Container, ContainerText, Text, Title } from './styles';
 
 export function Main() {
 	return (

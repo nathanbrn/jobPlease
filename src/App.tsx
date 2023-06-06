@@ -16,7 +16,7 @@ export default function App() {
 
 	useEffect(() => {
 		api
-			.get('/destaques')
+			.get('/starjobs')
 			.then(({ data }: any) => {
 				setTimeout(() => {
 					setVagasApi(data);
