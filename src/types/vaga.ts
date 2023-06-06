@@ -1,18 +1,18 @@
 export interface VagaProps {
-	id?: string;
+	_id?: string;
 
-	titulo: string;
-	senioridade: string;
-	empresa: string;
+	title: string;
+	experience: string;
+	enterprice: string;
 	type: string;
 	hour: string;
-	remuneracao: string;
+	salary: string;
 	location: string;
 	description: string;
-	requisitos: string;
-	diferencial: string;
-	beneficios: string;
-	link: string;
+	requirements: string;
+	differentials: string;
+	benefits: string;
+	url: string;
 
-	destaque?: boolean;
+	star?: boolean;
 }

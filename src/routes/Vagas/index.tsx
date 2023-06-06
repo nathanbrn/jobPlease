@@ -25,7 +25,7 @@ export function Vagas() {
 
 	useEffect(() => {
 		api
-			.get('/')
+			.get('/jobs')
 			.then(({ data }: any) => {
 				setVagasApi(data);
 				setIsLoading(false);
@@ -57,8 +57,8 @@ export function Vagas() {
 						<ContainerVagas>
 							{vagasApi.map((vaga: VagaProps) => (
 								<button
-									onClick={() => setVaga(vaga.id)}
-									key={vaga.id}
+									onClick={() => setVaga(vaga._id)}
+									key={vaga._id}
 									style={{
 										border: '1px solid rgba(0, 0, 0, 0.1)',
 										borderRadius: '8px',
@@ -80,19 +80,19 @@ export function Vagas() {
 											style={{
 												textAlign: 'left',
 											}}>
-											<h2>{vaga.titulo}</h2>
-											<p>{vaga.empresa}</p>
+											<h2>{vaga.title}</h2>
+											<p>{vaga.enterprice}</p>
 											<p>{vaga.location}</p>
-											<p>{vaga.senioridade}</p>
+											<p>{vaga.experience}</p>
 										</div>
 									</ContainerHeader>
 									<ContainerRemuneration>
-										{vaga.remuneracao === '' ? (
+										{vaga.salary === '' ? (
 											<></>
 										) : (
 											<span>
 												<Money />
-												{vaga.remuneracao}
+												{vaga.salary}
 											</span>
 										)}
 										<span>
@@ -147,7 +147,7 @@ export function Vagas() {
 													marginBottom: '8px',
 													backgroundColor: '#F0E68C',
 												}}>
-												{vaga.requisitos}
+												{vaga.requirements}
 											</p>
 											<a
 												style={{
@@ -157,7 +157,7 @@ export function Vagas() {
 													borderRadius: '8px',
 												}}
 												target='_blank'
-												href={vaga.link}>
+												href={vaga.url}>
 												Candidatar-se
 											</a>
 										</details>

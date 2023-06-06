@@ -23,10 +23,10 @@ export function ContainerInfoComp({
 	return (
 		<ContainerInfo>
 			{vagasApi
-				.filter((v: VagaProps) => v.id === vaga)
+				.filter((v: VagaProps) => v._id === vaga)
 				.map((vaga: VagaProps) => (
 					<div
-						key={vaga.id}
+						key={vaga._id}
 						style={{
 							padding: '12px',
 
@@ -38,17 +38,13 @@ export function ContainerInfoComp({
 							style={{
 								position: 'relative',
 							}}>
-							<h2>{vaga.titulo}</h2>
+							<h2>{vaga.title}</h2>
 							<div>
-								{vaga.remuneracao === '' ? (
-									<></>
-								) : (
-									<span>{vaga.remuneracao}</span>
-								)}
+								{vaga.salary === '' ? <></> : <span>{vaga.salary}</span>}
 								<span>{vaga.location}</span>
-								<span>{vaga.senioridade}</span>
+								<span>{vaga.experience}</span>
 							</div>
-							<a target='_blank' href={vaga.link}>
+							<a target='_blank' href={vaga.url}>
 								Candidatar-se a vaga
 							</a>
 							{button && (
@@ -88,15 +84,15 @@ export function ContainerInfoComp({
 							<div>
 								<div>
 									<h5>Requisitos</h5>
-									<ul>{vaga.requisitos}</ul>
+									<ul>{vaga.requirements}</ul>
 								</div>
 								<div>
 									<h5>Diferencial</h5>
-									<ul>{vaga.diferencial}</ul>
+									<ul>{vaga.differentials}</ul>
 								</div>
 								<div>
 									<h5>Beneficios</h5>
-									<ul>{vaga.beneficios}</ul>
+									<ul>{vaga.benefits}</ul>
 								</div>
 							</div>
 						</ContainerDescription>

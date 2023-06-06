@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
 	ButtonViewVagancy,
 	ButtonOpenVagancy,
@@ -23,8 +23,12 @@ export function Header({ children }: HeaderProps) {
 			<Title onClick={handleNavigateToHome}>Job, Please!</Title>
 			{children ? children : null}
 			<ContainerButton>
-				<ButtonViewVagancy href='/vagas'>Ver vagas</ButtonViewVagancy>
-				<ButtonOpenVagancy href='/criar'>Abrir vaga</ButtonOpenVagancy>
+				<Link to='/vagas'>
+					<ButtonViewVagancy>Ver vagas</ButtonViewVagancy>
+				</Link>
+				<Link to={'/criar'}>
+					<ButtonOpenVagancy>Abrir vaga</ButtonOpenVagancy>
+				</Link>
 			</ContainerButton>
 		</Container>
 	);
