@@ -11,41 +11,32 @@ import emptyList from "../../assets/emptyList.png";
 import { api } from "../../utils/api";
 
 import LogoEnterprice from "../../assets/LogoEnterprice.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VagaProps } from "../../types/vaga";
 import ReactLoading from "react-loading";
+import { render } from "react-dom";
 import { ContainerInfoComp } from "../../components/ContainerInfo";
-import { useQuery } from "react-query";
 
 export function Vagas() {
+  const [vagasApi, setVagasApi] = useState([]);
   const [vaga, setVaga] = useState<string>();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { data, isLoading, isError } = useQuery("jobs", async () => {
-    const { data } = await api.get("/jobs");
-    return data;
-  });
-
-  if (isError) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
-      >
-        <img
-          style={{
-            margin: "auto",
-          }}
-          width={500}
-          src={emptyList}
-          alt=""
-        />
-      </div>
-    );
-  }
+  useEffect(() => {
+    api
+      .get("/jobs")
+      .then(({ data }: any) => {
+        setVagasApi(data);
+        setIsLoading(false);
+      })
+      .catch((err: Error) => {
+        render(
+          <img width={500} src={emptyList} alt="" />,
+          document.getElementById("vagas")
+        );
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
@@ -60,10 +51,10 @@ export function Vagas() {
       >
         {isLoading ? (
           <ReactLoading type="bubbles" width="10%" color="#f0e68c" />
-        ) : data?.data.length > 0 ? (
+        ) : vagasApi.length > 0 ? (
           <Container>
             <ContainerVagas>
-              {data?.data.map((vaga: VagaProps) => (
+              {vagasApi.map((vaga: VagaProps) => (
                 <button
                   onClick={() => setVaga(vaga._id)}
                   key={vaga._id}
@@ -182,7 +173,7 @@ export function Vagas() {
                 </button>
               ))}
             </ContainerVagas>
-            <ContainerInfoComp vaga={vaga} vagasApi={data?.data} />
+            <ContainerInfoComp vaga={vaga} vagasApi={vagasApi} />
           </Container>
         ) : (
           <img src={emptyList} alt="" />

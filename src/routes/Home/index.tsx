@@ -2,18 +2,34 @@ import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Main } from "../../components/Main";
 import { api } from "../../utils/api";
+import emptyList from "../../assets/emptyList.png";
+import { render } from "react-dom";
 import { PopUpVaga } from "../../components/PopUpVaga";
 import { ContainerInfoComp } from "../../components/ContainerInfo";
-import { useQuery } from "react-query";
 
-export default function Home() {
+export default function App() {
+  const [vagasApi, setVagasApi] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [idVaga, setIdVaga] = useState<any>("");
   const [isSelectedVaga, setIsSelectedVaga] = useState<boolean>(false);
 
-  const { data, isLoading, isError } = useQuery("starjobs", async () => {
-    const { data } = await api.get("/starjobs");
-    return data;
-  });
+  useEffect(() => {
+    api
+      .get("/starjobs")
+      .then(({ data }: any) => {
+        setTimeout(() => {
+          setVagasApi(data);
+          setIsLoading(false);
+        }, 3000);
+      })
+      .catch((err: Error) => {
+        render(
+          <img width={250} src={emptyList} alt="" />,
+          document.getElementById("vagasDestaque")
+        );
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -29,35 +45,6 @@ export default function Home() {
     };
   }, [setIsSelectedVaga]);
 
-  if (isError) {
-    return (
-      <>
-        {isSelectedVaga && (
-          <PopUpVaga
-            children={
-              <ContainerInfoComp
-                setSelectedVaga={setIsSelectedVaga}
-                button={true}
-                vaga={idVaga}
-                vagasApi={data?.data}
-              />
-            }
-          />
-        )}
-        <Main />
-        <Footer
-          isError={isError}
-          idVaga={idVaga}
-          isSelectedVaga={isSelectedVaga}
-          setIdVaga={setIdVaga}
-          setIsSelectedVaga={setIsSelectedVaga}
-          isLoading={isLoading}
-          vagasApi={data?.data}
-        />
-      </>
-    );
-  }
-
   return (
     <>
       {isSelectedVaga && (
@@ -67,7 +54,7 @@ export default function Home() {
               setSelectedVaga={setIsSelectedVaga}
               button={true}
               vaga={idVaga}
-              vagasApi={data?.data}
+              vagasApi={vagasApi}
             />
           }
         />
@@ -79,7 +66,7 @@ export default function Home() {
         setIdVaga={setIdVaga}
         setIsSelectedVaga={setIsSelectedVaga}
         isLoading={isLoading}
-        vagasApi={data?.data}
+        vagasApi={vagasApi}
       />
     </>
   );

@@ -24,7 +24,6 @@ interface FooterProps {
   setIdVaga: (id: any) => void;
   isSelectedVaga: boolean;
   setIsSelectedVaga: (b: boolean) => void;
-  isError?: boolean;
 }
 
 export function Footer({
@@ -32,30 +31,7 @@ export function Footer({
   vagasApi,
   setIdVaga,
   setIsSelectedVaga,
-  isError,
 }: FooterProps) {
-  if (isError) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
-      >
-        <img
-          style={{
-            margin: "auto",
-          }}
-          width={250}
-          src={emptyList}
-          alt=""
-        />
-      </div>
-    );
-  }
-
   return (
     <Container>
       <Title>Veja nossas vagas em destaque</Title>
