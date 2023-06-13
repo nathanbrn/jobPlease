@@ -1,25 +1,26 @@
+import { Check, Money, Suitcase, Timer } from "@phosphor-icons/react";
 import {
   Container,
   ContainerHeader,
   ContainerRemuneration,
   ContainerVagas,
 } from "./styles";
-import { Money, Suitcase, Check, Timer } from "@phosphor-icons/react";
 
 import emptyList from "../../assets/emptyList.png";
 
 import { api } from "../../utils/api";
 
-import LogoEnterprice from "../../assets/LogoEnterprice.jpg";
 import { useEffect, useState } from "react";
-import { VagaProps } from "../../types/vaga";
-import ReactLoading from "react-loading";
 import { render } from "react-dom";
+import ReactLoading from "react-loading";
+import LogoEnterprice from "../../assets/LogoEnterprice.jpg";
 import { ContainerInfoComp } from "../../components/ContainerInfo";
+import { VagaProps } from "../../types/vaga";
 
 export function Vagas() {
   const [vagasApi, setVagasApi] = useState([]);
-  const [vaga, setVaga] = useState<string>();
+  const [vaga, setVaga] = useState<string | null>(null);
+  const firstVaga = vagasApi.map((vaga: VagaProps) => vaga)[0];
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export function Vagas() {
             <ContainerVagas>
               {vagasApi.map((vaga: VagaProps) => (
                 <button
-                  onClick={() => setVaga(vaga._id)}
+                  onClick={() => setVaga(vaga._id || null)}
                   key={vaga._id}
                   style={{
                     border: "1px solid rgba(0, 0, 0, 0.1)",
@@ -173,7 +174,11 @@ export function Vagas() {
                 </button>
               ))}
             </ContainerVagas>
-            <ContainerInfoComp vaga={vaga} vagasApi={vagasApi} />
+            <ContainerInfoComp
+              firstVaga={firstVaga}
+              vaga={vaga}
+              vagasApi={vagasApi}
+            />
           </Container>
         ) : (
           <img src={emptyList} alt="" />
